@@ -36,7 +36,7 @@ const courseSchema = new Schema(
   }
 );
 
-// a virtual property `friendCount ` that gets the total count of friends per retrival
+// a virtual called friendCount that retrieves the length of the user's friends array field on query.
 postSchema
   .virtual('friendsCounts')
   // Getter
