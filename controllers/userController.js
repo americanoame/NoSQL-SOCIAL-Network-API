@@ -1,10 +1,10 @@
 const { ObjectId } = require('bson');
 
-const User, Thought = require('../models');
+const { User } = require('../models');
 // {objectId} = ("mongoose")
 
 module.exports = {
-    getllUsers(req, res) {
+    getAllUsers(req, res) {
         User.find()
             .populate('thought')
             .populate('friends')
@@ -34,7 +34,7 @@ module.exports = {
     },
 
     updateUser(req, res) {
-         User.findOneByIdAndUpdate
+        User.findOneByIdAndUpdate
             (ObjectId(req.params.userId), { $set: req.body },
                 { new: true })
             .then((user) =>
@@ -48,10 +48,10 @@ module.exports = {
             })
 
     },
-};
+
 
 deleteUser(req, res) {
-    User.findOneByIdAndRemove(ObjectId(req.params.userId))
+    User.findOneByIdAndRemove({ _id: req.params.userId })
         .then((user) =>
             !user
                 ? res.status(404).json({ message: 'No user with this id!' })
@@ -59,12 +59,12 @@ deleteUser(req, res) {
         )
         .catch((err) => res.status(500).json(err));
 
-}
+},
 
 
 addFriend(req, res) {
     return User.findOneAndAdd(
-        { params.userId },
+        { _id: req.params.userId },
         { $addToset: { friends: req.params.friendId } },
         { new: true }
     )
@@ -75,12 +75,12 @@ addFriend(req, res) {
                 : res.json(user)
         )
         .catch((err) => res.status(500).json(err));
-}
+},
 
 
 delete (req, res) {
     return User.findOneAnddelete(
-        { params.userId },
+        { _id: req.params.userId },
         { $addToset: { friends: req.params.friendId } },
         { new: true }
     )

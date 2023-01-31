@@ -2,14 +2,14 @@ const { ObjectId } = require('mongoose').Types;
 const { User, Thought, Reaction } = require('../models');
 
 module.exports = {
-    getllThougths(req, res) {
+    getAllThought(req, res) {
         Thought.find()
             .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
 
     // Getting a single user by its _id and populated thought and friend data
-    getSingleThough(req, res) {
+    getSingleThought(req, res) {
         Thought.findOne({ _id: req.params.userId })
             .select('-__v')
             .then((thought) =>
@@ -40,9 +40,7 @@ module.exports = {
 
     },
 
-
-
-    updatethought(req, res) {
+    updateThought(req, res) {
 
         Thought.findOneByIdAndUpdate({ _id: req.params.thoughtId }, { $set: req.body }, { new: true })
 
@@ -57,7 +55,6 @@ module.exports = {
             });
 
     },
-
 
     deleteThought(req, res) {
         User.findOneByIdAndDelete(ObjectId(req.params.userId))

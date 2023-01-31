@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const dataFormat = require('../utils/dataFormat');
 
 // Schema to create reaction model
-const thoughtsSchema = new Schema(
+const reactionSchema = new Schema(
     {
 
         reactionId: {

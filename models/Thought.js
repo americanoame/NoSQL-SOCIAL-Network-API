@@ -1,7 +1,9 @@
 const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
+const formatData = require('../utils/dataFormat')
 
 // Schema to create thoughts model
-const thoughtsSchema = new Schema(
+const thoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
@@ -19,7 +21,7 @@ const thoughtsSchema = new Schema(
       type: String,
       require: true,
     },
-    reactions: [reactionsSchema],    
+    reactions: [reactionSchema],    
     },
   {
     toJSON: {
@@ -29,7 +31,7 @@ const thoughtsSchema = new Schema(
 );
 
 // a virtual called reactionCount that retrieves the length of the thought's reactions array field on query.
-postSchema
+thoughtSchema
   .virtual('reactionsCount')
   // Getter
   .get(function () {
@@ -37,6 +39,6 @@ postSchema
   });
 
 // Initialize our post Thoughts
-const Thoughts = model('post', postSchema);
+const Thought = model('thought', thoughtSchema);
 
-module.exports = Thoughts;
+module.exports = Thought;
