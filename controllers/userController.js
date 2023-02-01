@@ -78,7 +78,7 @@ addFriend(req, res) {
 },
 
 
-delete (req, res) {
+deletefriend (req, res) {
     return User.findOneAnddelete(
         { _id: req.params.userId },
         { $addToset: { friends: req.params.friendId } },
