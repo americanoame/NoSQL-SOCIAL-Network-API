@@ -14,13 +14,14 @@ router.route('/')
 .get(getAllUsers)
 .post(createUser); 
 
-// /api/users/:userId
-router.route('/:thoughtId')
-.get(getSingleUser)
-.put(updateUser)
+// /api/:userId
+router.route('/:userId')
+.get(getSingleUser).put(updateUser)
 .delete(deleteUser);
 
-// api/users/:usersId/friends/:friendsId
-router.route('/:userId/friends/:friendId').post(addFriend).delete(deleteFriend);
+// api/user/:userId/friends/:friendsId
+router.route('/:userId/friends/:friendId')
+.post(addFriend)
+.delete(deleteFriend);
 
 module.exports = router;
