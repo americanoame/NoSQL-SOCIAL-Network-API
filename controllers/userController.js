@@ -33,7 +33,6 @@ module.exports = {
     },
 
     updateUser(req, res) {
-        // what im trying to do is ...
         User.findOneAndUpdate(
             (ObjectId(req.params.userId),
                 { $set: req.body },
