@@ -10,13 +10,15 @@ module.exports = {
 
     // Getting a single user by its _id and populated thought and friend data
     getSingleThought(req, res) {
-        Thought.findOne({ _id: req.params.userId })
-            .select('-__v')
-            .then((thought) =>
-                !thought
-                    ? res.status(404).json({ message: 'No thought with that ID' })
-                    : res.json(user)
-            )
+        Thought.findOne({ _id: req.params.thoughtId })
+            .then((thoughtDb) => {
+                console.log(thoughtDb)
+                if (!thoughtDb) {
+                return res.status(404).json({ message: 'No thought with this id!' })
+                }
+                console.log(thoughtDb)   
+                res.json(thoughtDb)
+            })
             .catch((err) => res.status(500).json(err));
     },
 
@@ -24,7 +26,7 @@ module.exports = {
         Thought.create(req.body)
             .then((thought) => {
                 return User.findOneAndUpdate(
-                    { userName: req.body.username },
+                    { userName: req.body.thoughtId },
                     { $addToSet: { thoughts: thought._id } },
                     { new: true }
                 )
@@ -47,9 +49,8 @@ module.exports = {
 
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId }, 
-             req.body, 
-            { new: true })
-
+            { $set: req.body }, 
+            { runValidators: true, new: true })
             .then((thought) =>
                 !thought
                     ? res.status(404).json({ message: 'No user with this id!' })
@@ -63,7 +64,8 @@ module.exports = {
     },
 
     deleteThought(req, res) {
-        Thought.findOneByIAndDelete(ObjectId(req.params.thoughtId))
+        Thought.findOneAndRemove
+        ({ _id: req.params.thoughtId })
             .then((user) =>
                 !thought
                     ? res.status(404).json({ message: 'No thought with this id!' })
@@ -74,57 +76,34 @@ module.exports = {
     },
 
     createReaction(req, res) {
-        return Thought.findOneAndAdd(
-            { _id: req.params.ThoughtId },
-            { $addToset: { reaction: req.body } },
-            { new: true }
+        console.log(req.body)
+         Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $addToset: { reactions: req.body } },
+            { runValidators: true, new: true }
         )
-            .then((thought) =>
-                !thought
-                    ? res.status(404).json({ message: 'No thought with this id!' })
-                    : res.json(thought)
-            )
+            .then((thought) => {
+                if (!thought) {
+                return res.status(404).json({ message: 'No thought with this id!' })
+                }
+                    
+                res.json(thought)
+            })
             .catch((err) => res.status(500).json(err));
     },
 
-
     deleteReaction(req, res) {
-        Thought.findOneAnddelete({ _id: req.params.userId }, { $addToset: { reactionId: req.params.reactionId } }, { new: true })
+        Thought.findOneAndDelete({ _id: req.params.userId }, 
+            { $pull: { reactions:  { reactionId: req.params.reactionId } } }, 
+            { new: true })
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: 'No thought with this id!' })
-                    : res.json(thought)
+                    : res.json(user)
             )
             .catch((err) => res.status(500).json(err));
 
     },
-
-
-    // addFriend(req, res) {
-    //     User.findOneAndAdd({ _id: req.params.userId }, { $addToset: { friends: req.params.friendId } }, { new: true })
-
-
-    //         .then((user) =>
-    //             !user
-    //                 ? res.status(404).json({ message: 'No user with this id!' })
-    //                 : res.json(user)
-    //         )
-    //         .catch((err) => res.status(500).json(err));
-    // },
-    
-
-
-    // delete(req, res) {
-    //     User.findOneAnddelete({ _id: req.params.userId }, { $addToset: { friends: req.params.friendId } }, { new: true }
-    //     )
-
-    //         .then((user) =>
-    //             !user
-    //                 ? res.status(404).json({ message: 'No user with this id!' })
-    //                 : res.json(user)
-    //         )
-    //         .catch((err) => res.status(500).json(err));
-    // }
 
 }
 

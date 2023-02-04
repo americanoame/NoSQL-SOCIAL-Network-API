@@ -33,10 +33,12 @@ module.exports = {
     },
 
     updateUser(req, res) {
-        User.findOneAndUpdate
+        // what im trying to do is ...
+        User.findOneAndUpdate(
             (ObjectId(req.params.userId),
                 { $set: req.body },
                 { new: true })
+        )
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: 'No user with this id!' })

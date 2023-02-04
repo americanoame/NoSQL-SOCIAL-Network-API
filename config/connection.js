@@ -1,10 +1,10 @@
 // we're using object destructuring to destruct the this connection
-const { connect, connection } = require('mongoose');
+const { connect, connection, set } = require('mongoose');
 
-
+set('strictQuery', true);
 
 const connectionString =
-  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/studentsDB';
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/thoughtDB';
 
 
 connect(connectionString, { // this is making a call to the back end database
