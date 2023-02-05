@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const { User, Thought } = require('../models');
 
 module.exports = {
@@ -12,13 +12,14 @@ module.exports = {
     getSingleThought(req, res) {
         Thought.findOne({ _id: req.params.thoughtId })
             .select('-__v')
-            .populate('thoughts')
             .then((thought) =>
                 !thought
                     ? res.status(404).json({ message: 'No thought with this id!' })
                     : res.json(thought)
+
             )
             .catch((err) => res.status(500).json(err));
+
     },
 
     createThought(req, res) {
@@ -84,13 +85,11 @@ module.exports = {
             { $addToset: { reactions: req.body } },
             { runValidators: true, new: true }
         )
-            .then((thought) => {
-                if (!thought) {
-                    return res.status(404).json({ message: 'No thought with this id!' })
-                }
-
-                res.json(thought)
-            })
+            .then((thought) => 
+                 !thought 
+                    ? res.status(404).json({ message: 'No thought with this id!' })
+                    : res.json(thought)
+            )
             .catch((err) => res.status(500).json(err));
     },
 
