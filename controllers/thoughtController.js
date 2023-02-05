@@ -1,4 +1,3 @@
-// const mongoose = require('mongoose');
 const { User, Thought } = require('../models');
 
 module.exports = {
@@ -64,18 +63,13 @@ module.exports = {
     },
 
     deleteThought(req, res) {
-        return User.findOneAndRemove
-            ({ _id: req.params.thoughtId },
-            { $pull: { thoughts: req.params.thoughtId } },
-            { new: true }
-        )
-            .then((Thought) =>
+        Thought.findOneAndRemove( { _id: req.params.thoughtId })
+            .then((thought) => {
                 !thought
                     ? res.status(404).json({ message: 'No thought with this id!' })
-                    : res.json({ massage: "thought was deleted" })
-            )
+                    : res.json(thought)
+            })
             .catch((err) => res.status(500).json(err));
-
     },
 
     createReaction(req, res) {
@@ -85,8 +79,8 @@ module.exports = {
             { $addToset: { reactions: req.body } },
             { runValidators: true, new: true }
         )
-            .then((thought) => 
-                 !thought 
+            .then((thought) =>
+                !thought
                     ? res.status(404).json({ message: 'No thought with this id!' })
                     : res.json(thought)
             )
