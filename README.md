@@ -1,8 +1,9 @@
+
 # NoSQL-SOCIAL-Network-API
 
- ## 📖 Description
+ ### 📖 Description
 
- #### 
+ #### This is the Social Network web application based on endpoints.
  
   ## Table of Contents
 * [Installation](#Installation)
@@ -16,11 +17,10 @@
 
 
 #### Technologia used
-###### HTML, CSS, JAVASCRIPT
+###### EXPRESS, MONGOOSE
 
 ## Usage
-#### Check the Walkthrough video:  
-
+#### Check the Walkthrough video: https://watch.screencastify.com/v/b5iNrp0CKopRofhnPgcW
 ## ⚖️ License
 #### N/A
 
